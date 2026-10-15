@@ -1,0 +1,2516 @@
+[
+  {
+    "title": "Off-by-one in range sum",
+    "slug": "off-by-one-in-range-sum",
+    "difficulty": "Easy",
+    "difficultyLevel": 1,
+    "functionName": "sumTo",
+    "bugDescription": "Loop terminates at i < n instead of i <= n, omitting n from the sum.",
+    "description": "Calculate the sum of all integers from 0 up to and including n.",
+    "buggyCode": "function sumTo(n) {\n  let s = 0;\n  for (let i = 0; i < n; i++) {\n    s += i;\n  }\n  return s;\n}",
+    "solution": "function sumTo(n) {\n  let s = 0;\n  for (let i = 0; i <= n; i++) {\n    s += i;\n  }\n  return s;\n}",
+    "visibleTests": [
+      {
+        "id": "v1",
+        "name": "Sum to 3",
+        "input": [
+          3
+        ],
+        "expected": 6
+      },
+      {
+        "id": "v2",
+        "name": "Sum to 1",
+        "input": [
+          1
+        ],
+        "expected": 1
+      }
+    ],
+    "hiddenTests": [
+      {
+        "id": "h1",
+        "name": "Sum to 10",
+        "input": [
+          10
+        ],
+        "expected": 55
+      },
+      {
+        "id": "h2",
+        "name": "Sum to 0",
+        "input": [
+          0
+        ],
+        "expected": 0
+      },
+      {
+        "id": "h3",
+        "name": "Sum to 5",
+        "input": [
+          5
+        ],
+        "expected": 15
+      },
+      {
+        "id": "h4",
+        "name": "Sum to 100",
+        "input": [
+          100
+        ],
+        "expected": 5050
+      }
+    ],
+    "hints": [
+      "Check your loop termination condition: should it be i <= n?"
+    ],
+    "tags": [
+      "Loops",
+      "Math",
+      "Off-by-one"
+    ]
+  },
+  {
+    "title": "Wrong Comparison in Binary Search",
+    "slug": "wrong-comparison-binary-search",
+    "difficulty": "Easy",
+    "difficultyLevel": 2,
+    "functionName": "binarySearch",
+    "bugDescription": "Loop condition low < high skips when low equals high, and low = mid causes infinite loops.",
+    "description": "Find the 0-based index of target in a sorted array, or -1 if absent.",
+    "buggyCode": "function binarySearch(arr, target) {\n  let low = 0;\n  let high = arr.length - 1;\n  while (low < high) {\n    const mid = Math.floor((low + high) / 2);\n    if (arr[mid] === target) return mid;\n    if (arr[mid] < target) low = mid + 1;\n    else high = mid - 1;\n  }\n  return -1;\n}",
+    "solution": "function binarySearch(arr, target) {\n  let low = 0;\n  let high = arr.length - 1;\n  while (low <= high) {\n    const mid = Math.floor((low + high) / 2);\n    if (arr[mid] === target) return mid;\n    if (arr[mid] < target) low = mid + 1;\n    else high = mid - 1;\n  }\n  return -1;\n}",
+    "visibleTests": [
+      {
+        "id": "v1",
+        "name": "Target in middle",
+        "input": [
+          [
+            1,
+            3,
+            5,
+            7,
+            9
+          ],
+          5
+        ],
+        "expected": 2
+      },
+      {
+        "id": "v2",
+        "name": "Missing target returns -1",
+        "input": [
+          [
+            2,
+            4,
+            6
+          ],
+          5
+        ],
+        "expected": -1
+      }
+    ],
+    "hiddenTests": [
+      {
+        "id": "h1",
+        "name": "Target is last element",
+        "input": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          5
+        ],
+        "expected": 4
+      },
+      {
+        "id": "h2",
+        "name": "Single element array found",
+        "input": [
+          [
+            7
+          ],
+          7
+        ],
+        "expected": 0
+      },
+      {
+        "id": "h3",
+        "name": "Target is first element",
+        "input": [
+          [
+            10,
+            20,
+            30
+          ],
+          10
+        ],
+        "expected": 0
+      },
+      {
+        "id": "h4",
+        "name": "Empty array returns -1",
+        "input": [
+          [],
+          42
+        ],
+        "expected": -1
+      }
+    ],
+    "hints": [
+      "The while loop condition must be low <= high with low = mid + 1 and high = mid - 1."
+    ],
+    "tags": [
+      "Algorithms",
+      "Binary Search",
+      "Wrong Comparison"
+    ]
+  },
+  {
+    "title": "Wrong Operator in Leap Year Calculation",
+    "slug": "wrong-operator-leap-year",
+    "difficulty": "Easy",
+    "difficultyLevel": 1,
+    "functionName": "isLeapYear",
+    "bugDescription": "Uses || instead of && for the century rule, declaring years like 1900 as leap years.",
+    "description": "Determine if a given year is a leap year in the Gregorian calendar.",
+    "buggyCode": "function isLeapYear(year) {\n  // BUG: Any century year divisible by 100 becomes a leap year!\n  return (year % 4 === 0) || (year % 100 === 0);\n}",
+    "solution": "function isLeapYear(year) {\n  return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);\n}",
+    "visibleTests": [
+      {
+        "id": "v1",
+        "name": "Standard leap year 2024",
+        "input": [
+          2024
+        ],
+        "expected": true
+      },
+      {
+        "id": "v2",
+        "name": "Standard non-leap year 2023",
+        "input": [
+          2023
+        ],
+        "expected": false
+      }
+    ],
+    "hiddenTests": [
+      {
+        "id": "h1",
+        "name": "Century year 1900 is not leap",
+        "input": [
+          1900
+        ],
+        "expected": false
+      },
+      {
+        "id": "h2",
+        "name": "Quad-century year 2000 is leap",
+        "input": [
+          2000
+        ],
+        "expected": true
+      },
+      {
+        "id": "h3",
+        "name": "Century year 2100 is not leap",
+        "input": [
+          2100
+        ],
+        "expected": false
+      },
+      {
+        "id": "h4",
+        "name": "Quad-century year 2400 is leap",
+        "input": [
+          2400
+        ],
+        "expected": true
+      }
+    ],
+    "hints": [
+      "A leap year is divisible by 4 AND NOT divisible by 100, UNLESS divisible by 400."
+    ],
+    "tags": [
+      "Math",
+      "Logic",
+      "Wrong Operator"
+    ]
+  },
+  {
+    "title": "Mutated Array in Duplicate Removal",
+    "slug": "mutated-array-duplicate-removal",
+    "difficulty": "Easy",
+    "difficultyLevel": 2,
+    "functionName": "removeDuplicates",
+    "bugDescription": "Mutates array via splice while advancing index i++, skipping adjacent duplicate values.",
+    "description": "Return a new array containing only the unique elements of the input in their original order.",
+    "buggyCode": "function removeDuplicates(arr) {\n  // BUG: Mutating array with splice(i, 1) during forward loop skips next item\n  for (let i = 0; i < arr.length; i++) {\n    if (arr.indexOf(arr[i]) !== i) {\n      arr.splice(i, 1);\n    }\n  }\n  return arr;\n}",
+    "solution": "function removeDuplicates(arr) {\n  return Array.from(new Set(arr));\n}",
+    "visibleTests": [
+      {
+        "id": "v1",
+        "name": "Removes duplicate 2",
+        "input": [
+          [
+            1,
+            2,
+            2,
+            3
+          ]
+        ],
+        "expected": [
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "id": "v2",
+        "name": "Already unique array",
+        "input": [
+          [
+            4,
+            5,
+            6
+          ]
+        ],
+        "expected": [
+          4,
+          5,
+          6
+        ]
+      }
+    ],
+    "hiddenTests": [
+      {
+        "id": "h1",
+        "name": "Multiple consecutive duplicates",
+        "input": [
+          [
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "expected": [
+          1
+        ]
+      },
+      {
+        "id": "h2",
+        "name": "Empty array",
+        "input": [
+          []
+        ],
+        "expected": []
+      },
+      {
+        "id": "h3",
+        "name": "Interleaved duplicates",
+        "input": [
+          [
+            7,
+            2,
+            7,
+            2,
+            9
+          ]
+        ],
+        "expected": [
+          7,
+          2,
+          9
+        ]
+      },
+      {
+        "id": "h4",
+        "name": "String duplicates",
+        "input": [
+          [
+            "a",
+            "b",
+            "a",
+            "c",
+            "b"
+          ]
+        ],
+        "expected": [
+          "a",
+          "b",
+          "c"
+        ]
+      }
+    ],
+    "hints": [
+      "Avoid mutating arrays while iterating. You can use new Set(arr)."
+    ],
+    "tags": [
+      "Arrays",
+      "Mutated State",
+      "Sets"
+    ]
+  },
+  {
+    "title": "Wrong Comparison in Clamp Function",
+    "slug": "wrong-comparison-clamp-function",
+    "difficulty": "Easy",
+    "difficultyLevel": 1,
+    "functionName": "clamp",
+    "bugDescription": "Reverses bounds checking, returning max when val is below min and min when val is above max.",
+    "description": "Restrict a numeric value to lie within inclusive lower and upper limits.",
+    "buggyCode": "function clamp(val, min, max) {\n  // BUG: Reversed comparisons\n  if (val < min) return max;\n  if (val > max) return min;\n  return val;\n}",
+    "solution": "function clamp(val, min, max) {\n  const low = Math.min(min, max);\n  const high = Math.max(min, max);\n  return Math.min(Math.max(val, low), high);\n}",
+    "visibleTests": [
+      {
+        "id": "v1",
+        "name": "Value within bounds",
+        "input": [
+          5,
+          0,
+          10
+        ],
+        "expected": 5
+      },
+      {
+        "id": "v2",
+        "name": "Value below minimum",
+        "input": [
+          -3,
+          0,
+          10
+        ],
+        "expected": 0
+      }
+    ],
+    "hiddenTests": [
+      {
+        "id": "h1",
+        "name": "Value above maximum",
+        "input": [
+          15,
+          0,
+          10
+        ],
+        "expected": 10
+      },
+      {
+        "id": "h2",
+        "name": "Inverted min and max bounds",
+        "input": [
+          7,
+          10,
+          0
+        ],
+        "expected": 7
+      },
+      {
+        "id": "h3",
+        "name": "Value equal to min",
+        "input": [
+          0,
+          0,
+          10
+        ],
+        "expected": 0
+      },
+      {
+        "id": "h4",
+        "name": "Value equal to max",
+        "input": [
+          10,
+          0,
+          10
+        ],
+        "expected": 10
+      }
+    ],
+    "hints": [
+      "Use Math.min and Math.max to constrain val."
+    ],
+    "tags": [
+      "Math",
+      "Wrong Comparison",
+      "Bounds"
+    ]
+  },
+  {
+    "title": "Off-by-one in Array Chunking",
+    "slug": "off-by-one-array-chunking",
+    "difficulty": "Easy",
+    "difficultyLevel": 2,
+    "functionName": "chunkArray",
+    "bugDescription": "Loop steps by 1 (i++) instead of step size (i += size), producing overlapping subarrays.",
+    "description": "Split an array into chunks of the given size. The final chunk may contain fewer elements.",
+    "buggyCode": "function chunkArray(arr, size) {\n  const chunks = [];\n  // BUG: i++ instead of i += size!\n  for (let i = 0; i < arr.length; i++) {\n    chunks.push(arr.slice(i, i + size));\n  }\n  return chunks;\n}",
+    "solution": "function chunkArray(arr, size) {\n  if (!size || size <= 0) return [];\n  const chunks = [];\n  for (let i = 0; i < arr.length; i += size) {\n    chunks.push(arr.slice(i, i + size));\n  }\n  return chunks;\n}",
+    "visibleTests": [
+      {
+        "id": "v1",
+        "name": "Evenly divisible array",
+        "input": [
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          2
+        ],
+        "expected": [
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ]
+      },
+      {
+        "id": "v2",
+        "name": "Uneven chunk remaining",
+        "input": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          2
+        ],
+        "expected": [
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            5
+          ]
+        ]
+      }
+    ],
+    "hiddenTests": [
+      {
+        "id": "h1",
+        "name": "Chunk size larger than array",
+        "input": [
+          [
+            1,
+            2
+          ],
+          5
+        ],
+        "expected": [
+          [
+            1,
+            2
+          ]
+        ]
+      },
+      {
+        "id": "h2",
+        "name": "Empty array",
+        "input": [
+          [],
+          3
+        ],
+        "expected": []
+      },
+      {
+        "id": "h3",
+        "name": "Chunk size of 1",
+        "input": [
+          [
+            1,
+            2,
+            3
+          ],
+          1
+        ],
+        "expected": [
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ]
+      },
+      {
+        "id": "h4",
+        "name": "Size zero edge case",
+        "input": [
+          [
+            1,
+            2
+          ],
+          0
+        ],
+        "expected": []
+      }
+    ],
+    "hints": [
+      "Advance the loop with i += size."
+    ],
+    "tags": [
+      "Arrays",
+      "Off-by-one",
+      "Slicing"
+    ]
+  },
+  {
+    "title": "Edge Case in Falsy Value Filtering",
+    "slug": "edge-case-falsy-filtering",
+    "difficulty": "Easy",
+    "difficultyLevel": 1,
+    "functionName": "compact",
+    "bugDescription": "Only checks for null and undefined, leaving 0, false, and empty strings.",
+    "description": "Filter out all falsy values (false, null, 0, \"\", undefined, and NaN) from an array.",
+    "buggyCode": "function compact(arr) {\n  // BUG: Leaves 0, false, and empty strings\n  return arr.filter(x => x !== null && x !== undefined);\n}",
+    "solution": "function compact(arr) {\n  return arr.filter(Boolean);\n}",
+    "visibleTests": [
+      {
+        "id": "v1",
+        "name": "Removes null and null values",
+        "input": [
+          [
+            1,
+            null,
+            2,
+            null,
+            3
+          ]
+        ],
+        "expected": [
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "id": "v2",
+        "name": "Preserves truthy strings",
+        "input": [
+          [
+            "a",
+            "b",
+            ""
+          ]
+        ],
+        "expected": [
+          "a",
+          "b"
+        ]
+      }
+    ],
+    "hiddenTests": [
+      {
+        "id": "h1",
+        "name": "Removes 0 and false",
+        "input": [
+          [
+            0,
+            1,
+            false,
+            2,
+            ""
+          ]
+        ],
+        "expected": [
+          1,
+          2
+        ]
+      },
+      {
+        "id": "h2",
+        "name": "All falsy array",
+        "input": [
+          [
+            false,
+            null,
+            0,
+            "",
+            null
+          ]
+        ],
+        "expected": []
+      },
+      {
+        "id": "h3",
+        "name": "Empty array",
+        "input": [
+          []
+        ],
+        "expected": []
+      },
+      {
+        "id": "h4",
+        "name": "All truthy array",
+        "input": [
+          [
+            42,
+            "hello",
+            true
+          ]
+        ],
+        "expected": [
+          42,
+          "hello",
+          true
+        ]
+      }
+    ],
+    "hints": [
+      "Use arr.filter(Boolean)."
+    ],
+    "tags": [
+      "Arrays",
+      "Edge Cases",
+      "Falsy"
+    ]
+  },
+  {
+    "title": "Wrong Comparison in Maximum Subarray Sum",
+    "slug": "wrong-comparison-max-subarray",
+    "difficulty": "Easy",
+    "difficultyLevel": 2,
+    "functionName": "maxSubArray",
+    "bugDescription": "Initializes max sum to 0, failing when all numbers in the array are negative.",
+    "description": "Find the maximum sum of a contiguous non-empty subarray using Kadane's algorithm.",
+    "buggyCode": "function maxSubArray(nums) {\n  if (!nums.length) return 0;\n  let maxSoFar = 0; // BUG: Fails on all-negative arrays!\n  let current = 0;\n  for (let x of nums) {\n    current = Math.max(x, current + x);\n    maxSoFar = Math.max(maxSoFar, current);\n  }\n  return maxSoFar;\n}",
+    "solution": "function maxSubArray(nums) {\n  if (!nums.length) return 0;\n  let maxSoFar = nums[0];\n  let current = nums[0];\n  for (let i = 1; i < nums.length; i++) {\n    current = Math.max(nums[i], current + nums[i]);\n    maxSoFar = Math.max(maxSoFar, current);\n  }\n  return maxSoFar;\n}",
+    "visibleTests": [
+      {
+        "id": "v1",
+        "name": "Mixed positive and negative",
+        "input": [
+          [
+            -2,
+            1,
+            -3,
+            4,
+            -1,
+            2,
+            1,
+            -5,
+            4
+          ]
+        ],
+        "expected": 6
+      },
+      {
+        "id": "v2",
+        "name": "Single positive element",
+        "input": [
+          [
+            5
+          ]
+        ],
+        "expected": 5
+      }
+    ],
+    "hiddenTests": [
+      {
+        "id": "h1",
+        "name": "All negative elements",
+        "input": [
+          [
+            -5,
+            -3,
+            -1,
+            -4
+          ]
+        ],
+        "expected": -1
+      },
+      {
+        "id": "h2",
+        "name": "Single negative element",
+        "input": [
+          [
+            -9
+          ]
+        ],
+        "expected": -9
+      },
+      {
+        "id": "h3",
+        "name": "All positive elements",
+        "input": [
+          [
+            1,
+            2,
+            3,
+            4
+          ]
+        ],
+        "expected": 10
+      },
+      {
+        "id": "h4",
+        "name": "Alternating signs",
+        "input": [
+          [
+            2,
+            -1,
+            3,
+            -2,
+            4
+          ]
+        ],
+        "expected": 6
+      }
+    ],
+    "hints": [
+      "Initialize maxSoFar and current to nums[0], not 0."
+    ],
+    "tags": [
+      "Dynamic Programming",
+      "Wrong Comparison",
+      "Kadane"
+    ]
+  },
+  {
+    "title": "Mutated Shared State in Deep Clone",
+    "slug": "mutated-state-deep-clone",
+    "difficulty": "Medium",
+    "difficultyLevel": 3,
+    "functionName": "deepClone",
+    "bugDescription": "Uses Object.assign which performs shallow cloning and crashes on null.",
+    "description": "Create an independent deep copy of objects and arrays without mutating originals.",
+    "buggyCode": "function deepClone(obj) {\n  // BUG: Shallow clone via Object.assign mutates nested objects and fails on null\n  if (typeof obj !== 'object') return obj;\n  return Object.assign({}, obj);\n}",
+    "solution": "function deepClone(obj) {\n  if (obj === null || typeof obj !== 'object') return obj;\n  if (Array.isArray(obj)) return obj.map(deepClone);\n  const copy = {};\n  for (const key of Object.keys(obj)) {\n    copy[key] = deepClone(obj[key]);\n  }\n  return copy;\n}",
+    "visibleTests": [
+      {
+        "id": "v1",
+        "name": "Primitive value clone",
+        "input": [
+          42
+        ],
+        "expected": 42
+      },
+      {
+        "id": "v2",
+        "name": "Flat object clone",
+        "input": [
+          {
+            "a": 1,
+            "b": 2
+          }
+        ],
+        "expected": {
+          "a": 1,
+          "b": 2
+        }
+      }
+    ],
+    "hiddenTests": [
+      {
+        "id": "h1",
+        "name": "Nested object clone",
+        "input": [
+          {
+            "user": {
+              "id": 1,
+              "name": "Neo"
+            }
+          }
+        ],
+        "expected": {
+          "user": {
+            "id": 1,
+            "name": "Neo"
+          }
+        }
+      },
+      {
+        "id": "h2",
+        "name": "Nested arrays clone",
+        "input": [
+          [
+            1,
+            [
+              2,
+              [
+                3
+              ]
+            ]
+          ]
+        ],
+        "expected": [
+          1,
+          [
+            2,
+            [
+              3
+            ]
+          ]
+        ]
+      },
+      {
+        "id": "h3",
+        "name": "Null and boolean properties",
+        "input": [
+          {
+            "a": null,
+            "b": false
+          }
+        ],
+        "expected": {
+          "a": null,
+          "b": false
+        }
+      },
+      {
+        "id": "h4",
+        "name": "Array of objects",
+        "input": [
+          [
+            {
+              "x": 1
+            },
+            {
+              "y": 2
+            }
+          ]
+        ],
+        "expected": [
+          {
+            "x": 1
+          },
+          {
+            "y": 2
+          }
+        ]
+      }
+    ],
+    "hints": [
+      "Handle null explicitly, check Array.isArray, and recurse on properties."
+    ],
+    "tags": [
+      "Objects",
+      "Mutated State",
+      "Recursion"
+    ]
+  },
+  {
+    "title": "Off-by-one in Flatten Array with Depth",
+    "slug": "off-by-one-flatten-array",
+    "difficulty": "Medium",
+    "difficultyLevel": 3,
+    "functionName": "flattenArray",
+    "bugDescription": "Omits base case depth <= 0 and fails to decrement depth on recursion.",
+    "description": "Flatten nested array elements up to the specified positive integer depth limit.",
+    "buggyCode": "function flattenArray(arr, depth = 1) {\n  const result = [];\n  for (let item of arr) {\n    if (Array.isArray(item)) {\n      // BUG: Passes depth without decrementing depth - 1!\n      result.push(...flattenArray(item, depth));\n    } else {\n      result.push(item);\n    }\n  }\n  return result;\n}",
+    "solution": "function flattenArray(arr, depth = 1) {\n  if (depth <= 0) return arr.slice();\n  const result = [];\n  for (let item of arr) {\n    if (Array.isArray(item)) {\n      result.push(...flattenArray(item, depth - 1));\n    } else {\n      result.push(item);\n    }\n  }\n  return result;\n}",
+    "visibleTests": [
+      {
+        "id": "v1",
+        "name": "Flatten 1 level default",
+        "input": [
+          [
+            1,
+            [
+              2,
+              [
+                3,
+                [
+                  4
+                ]
+              ]
+            ]
+          ]
+        ],
+        "expected": [
+          1,
+          2,
+          [
+            3,
+            [
+              4
+            ]
+          ]
+        ]
+      },
+      {
+        "id": "v2",
+        "name": "Flatten 2 levels",
+        "input": [
+          [
+            1,
+            [
+              2,
+              [
+                3,
+                [
+                  4
+                ]
+              ]
+            ]
+          ],
+          2
+        ],
+        "expected": [
+          1,
+          2,
+          3,
+          [
+            4
+          ]
+        ]
+      }
+    ],
+    "hiddenTests": [
+      {
+        "id": "h1",
+        "name": "Depth 0 unflattened",
+        "input": [
+          [
+            [
+              1,
+              2
+            ],
+            [
+              3
+            ]
+          ],
+          0
+        ],
+        "expected": [
+          [
+            1,
+            2
+          ],
+          [
+            3
+          ]
+        ]
+      },
+      {
+        "id": "h2",
+        "name": "Already flat array",
+        "input": [
+          [
+            1,
+            2,
+            3
+          ],
+          2
+        ],
+        "expected": [
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "id": "h3",
+        "name": "Deep nesting depth 1",
+        "input": [
+          [
+            [
+              1,
+              [
+                2
+              ]
+            ]
+          ],
+          1
+        ],
+        "expected": [
+          1,
+          [
+            2
+          ]
+        ]
+      },
+      {
+        "id": "h4",
+        "name": "Empty array input",
+        "input": [
+          [],
+          3
+        ],
+        "expected": []
+      }
+    ],
+    "hints": [
+      "Add if (depth <= 0) return arr.slice(); and recurse with depth - 1."
+    ],
+    "tags": [
+      "Recursion",
+      "Off-by-one",
+      "Arrays"
+    ]
+  },
+  {
+    "title": "Async/Await Mistake in Sequential Task Runner",
+    "slug": "async-mistake-sequential-runner",
+    "difficulty": "Medium",
+    "difficultyLevel": 3,
+    "functionName": "fetchAllSequentially",
+    "bugDescription": "Uses forEach with an async callback; forEach does not await promises and returns immediately.",
+    "description": "Multiply each item by multiplier sequentially with async delay and return the array of results.",
+    "buggyCode": "async function fetchAllSequentially(items, multiplier = 2) {\n  const results = [];\n  // BUG: Array.prototype.forEach ignores async return values!\n  items.forEach(async (item) => {\n    await new Promise(r => setTimeout(r, 5));\n    results.push(item * multiplier);\n  });\n  return results; // Returns [] immediately!\n}",
+    "solution": "async function fetchAllSequentially(items, multiplier = 2) {\n  const results = [];\n  for (const item of items) {\n    await new Promise(r => setTimeout(r, 5));\n    results.push(item * multiplier);\n  }\n  return results;\n}",
+    "visibleTests": [
+      {
+        "id": "v1",
+        "name": "Sequential multiplication",
+        "input": [
+          [
+            1,
+            2,
+            3
+          ],
+          2
+        ],
+        "expected": [
+          2,
+          4,
+          6
+        ]
+      },
+      {
+        "id": "v2",
+        "name": "Single item",
+        "input": [
+          [
+            10
+          ],
+          3
+        ],
+        "expected": [
+          30
+        ]
+      }
+    ],
+    "hiddenTests": [
+      {
+        "id": "h1",
+        "name": "Three items multiplier 1",
+        "input": [
+          [
+            5,
+            10,
+            15
+          ],
+          1
+        ],
+        "expected": [
+          5,
+          10,
+          15
+        ]
+      },
+      {
+        "id": "h2",
+        "name": "Empty items list",
+        "input": [
+          [],
+          5
+        ],
+        "expected": []
+      },
+      {
+        "id": "h3",
+        "name": "Negative items",
+        "input": [
+          [
+            -1,
+            -2
+          ],
+          4
+        ],
+        "expected": [
+          -4,
+          -8
+        ]
+      },
+      {
+        "id": "h4",
+        "name": "Zero multiplier",
+        "input": [
+          [
+            7,
+            8
+          ],
+          0
+        ],
+        "expected": [
+          0,
+          0
+        ]
+      }
+    ],
+    "hints": [
+      "Replace forEach with a standard for...of loop to properly await each step."
+    ],
+    "tags": [
+      "Async",
+      "Promises",
+      "Async/Await Mistakes"
+    ]
+  },
+  {
+    "title": "Wrong Operator in Merge Intervals",
+    "slug": "wrong-operator-merge-intervals",
+    "difficulty": "Medium",
+    "difficultyLevel": 3,
+    "functionName": "mergeIntervals",
+    "bugDescription": "Fails to sort intervals by start time first, breaking when intervals are received out of order.",
+    "description": "Merge all overlapping intervals into non-overlapping intervals.",
+    "buggyCode": "function mergeIntervals(intervals) {\n  if (intervals.length <= 1) return intervals;\n  // BUG: Missing intervals.sort by start time!\n  const merged = [intervals[0]];\n  for (let i = 1; i < intervals.length; i++) {\n    const curr = intervals[i];\n    const last = merged[merged.length - 1];\n    if (curr[0] <= last[1]) {\n      last[1] = Math.max(last[1], curr[1]);\n    } else {\n      merged.push(curr);\n    }\n  }\n  return merged;\n}",
+    "solution": "function mergeIntervals(intervals) {\n  if (intervals.length <= 1) return intervals;\n  const sorted = intervals.slice().sort((a, b) => a[0] - b[0]);\n  const merged = [sorted[0]];\n  for (let i = 1; i < sorted.length; i++) {\n    const curr = sorted[i];\n    const last = merged[merged.length - 1];\n    if (curr[0] <= last[1]) {\n      last[1] = Math.max(last[1], curr[1]);\n    } else {\n      merged.push(curr);\n    }\n  }\n  return merged;\n}",
+    "visibleTests": [
+      {
+        "id": "v1",
+        "name": "Standard sorted intervals",
+        "input": [
+          [
+            [
+              1,
+              3
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              8,
+              10
+            ],
+            [
+              15,
+              18
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            1,
+            6
+          ],
+          [
+            8,
+            10
+          ],
+          [
+            15,
+            18
+          ]
+        ]
+      },
+      {
+        "id": "v2",
+        "name": "Touching boundary intervals",
+        "input": [
+          [
+            [
+              1,
+              4
+            ],
+            [
+              4,
+              5
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            1,
+            5
+          ]
+        ]
+      }
+    ],
+    "hiddenTests": [
+      {
+        "id": "h1",
+        "name": "Unsorted input intervals",
+        "input": [
+          [
+            [
+              2,
+              6
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              8,
+              10
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            1,
+            6
+          ],
+          [
+            8,
+            10
+          ]
+        ]
+      },
+      {
+        "id": "h2",
+        "name": "Completely contained interval",
+        "input": [
+          [
+            [
+              1,
+              10
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              4,
+              8
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            1,
+            10
+          ]
+        ]
+      },
+      {
+        "id": "h3",
+        "name": "Single interval input",
+        "input": [
+          [
+            [
+              1,
+              5
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            1,
+            5
+          ]
+        ]
+      },
+      {
+        "id": "h4",
+        "name": "Disjoint intervals",
+        "input": [
+          [
+            [
+              1,
+              2
+            ],
+            [
+              3,
+              4
+            ],
+            [
+              5,
+              6
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            5,
+            6
+          ]
+        ]
+      }
+    ],
+    "hints": [
+      "Sort intervals by start time: intervals.slice().sort((a, b) => a[0] - b[0])."
+    ],
+    "tags": [
+      "Arrays",
+      "Wrong Comparison",
+      "Intervals"
+    ]
+  },
+  {
+    "title": "Mutated State in Object GroupBy",
+    "slug": "mutated-state-object-groupby",
+    "difficulty": "Medium",
+    "difficultyLevel": 3,
+    "functionName": "groupBy",
+    "bugDescription": "Directly assigns result[key] = item, overwriting previous items instead of collecting an array.",
+    "description": "Group an array of objects by property key into an object of arrays.",
+    "buggyCode": "function groupBy(items, key) {\n  const result = {};\n  for (let item of items) {\n    const k = item[key];\n    // BUG: Overwrites property with single item!\n    result[k] = item;\n  }\n  return result;\n}",
+    "solution": "function groupBy(items, key) {\n  const result = {};\n  for (let item of items) {\n    const k = item[key];\n    if (!result[k]) result[k] = [];\n    result[k].push(item);\n  }\n  return result;\n}",
+    "visibleTests": [
+      {
+        "id": "v1",
+        "name": "Group users by role",
+        "input": [
+          [
+            {
+              "role": "admin",
+              "name": "A"
+            },
+            {
+              "role": "user",
+              "name": "B"
+            },
+            {
+              "role": "admin",
+              "name": "C"
+            }
+          ],
+          "role"
+        ],
+        "expected": {
+          "admin": [
+            {
+              "role": "admin",
+              "name": "A"
+            },
+            {
+              "role": "admin",
+              "name": "C"
+            }
+          ],
+          "user": [
+            {
+              "role": "user",
+              "name": "B"
+            }
+          ]
+        }
+      },
+      {
+        "id": "v2",
+        "name": "Group fruits by type",
+        "input": [
+          [
+            {
+              "type": "fruit",
+              "name": "apple"
+            },
+            {
+              "type": "fruit",
+              "name": "banana"
+            }
+          ],
+          "type"
+        ],
+        "expected": {
+          "fruit": [
+            {
+              "type": "fruit",
+              "name": "apple"
+            },
+            {
+              "type": "fruit",
+              "name": "banana"
+            }
+          ]
+        }
+      }
+    ],
+    "hiddenTests": [
+      {
+        "id": "h1",
+        "name": "Empty items array",
+        "input": [
+          [],
+          "role"
+        ],
+        "expected": {}
+      },
+      {
+        "id": "h2",
+        "name": "Single item per group",
+        "input": [
+          [
+            {
+              "cat": "a",
+              "v": 1
+            },
+            {
+              "cat": "b",
+              "v": 2
+            }
+          ],
+          "cat"
+        ],
+        "expected": {
+          "a": [
+            {
+              "cat": "a",
+              "v": 1
+            }
+          ],
+          "b": [
+            {
+              "cat": "b",
+              "v": 2
+            }
+          ]
+        }
+      },
+      {
+        "id": "h3",
+        "name": "All items in same group",
+        "input": [
+          [
+            {
+              "tag": "x",
+              "n": 1
+            },
+            {
+              "tag": "x",
+              "n": 2
+            },
+            {
+              "tag": "x",
+              "n": 3
+            }
+          ],
+          "tag"
+        ],
+        "expected": {
+          "x": [
+            {
+              "tag": "x",
+              "n": 1
+            },
+            {
+              "tag": "x",
+              "n": 2
+            },
+            {
+              "tag": "x",
+              "n": 3
+            }
+          ]
+        }
+      },
+      {
+        "id": "h4",
+        "name": "Single item array",
+        "input": [
+          [
+            {
+              "k": "z",
+              "v": 99
+            }
+          ],
+          "k"
+        ],
+        "expected": {
+          "z": [
+            {
+              "k": "z",
+              "v": 99
+            }
+          ]
+        }
+      }
+    ],
+    "hints": [
+      "Initialize result[k] = result[k] || [] before pushing item."
+    ],
+    "tags": [
+      "Objects",
+      "Mutated State",
+      "Collections"
+    ]
+  },
+  {
+    "title": "Async/Await Mistake in Promise Delay",
+    "slug": "async-mistake-promise-delay",
+    "difficulty": "Medium",
+    "difficultyLevel": 3,
+    "functionName": "delayResolve",
+    "bugDescription": "Does not await the Promise inside the loop, pushing pending Promise objects to the array.",
+    "description": "Multiply each value by 2 after a simulated delay and return resolved values.",
+    "buggyCode": "async function delayResolve(values, delayMs) {\n  const out = [];\n  for (let v of values) {\n    // BUG: Omits await keyword, returning unresolved Promise objects!\n    const p = new Promise(resolve => setTimeout(() => resolve(v * 2), delayMs));\n    out.push(p);\n  }\n  return out;\n}",
+    "solution": "async function delayResolve(values, delayMs) {\n  const out = [];\n  for (let v of values) {\n    const val = await new Promise(resolve => setTimeout(() => resolve(v * 2), delayMs));\n    out.push(val);\n  }\n  return out;\n}",
+    "visibleTests": [
+      {
+        "id": "v1",
+        "name": "Resolved values array",
+        "input": [
+          [
+            1,
+            2,
+            3
+          ],
+          5
+        ],
+        "expected": [
+          2,
+          4,
+          6
+        ]
+      },
+      {
+        "id": "v2",
+        "name": "Single value resolution",
+        "input": [
+          [
+            10
+          ],
+          5
+        ],
+        "expected": [
+          20
+        ]
+      }
+    ],
+    "hiddenTests": [
+      {
+        "id": "h1",
+        "name": "Three items multiplied",
+        "input": [
+          [
+            5,
+            10,
+            15
+          ],
+          2
+        ],
+        "expected": [
+          10,
+          20,
+          30
+        ]
+      },
+      {
+        "id": "h2",
+        "name": "Empty values array",
+        "input": [
+          [],
+          10
+        ],
+        "expected": []
+      },
+      {
+        "id": "h3",
+        "name": "Negative and zero values",
+        "input": [
+          [
+            -4,
+            0,
+            4
+          ],
+          2
+        ],
+        "expected": [
+          -8,
+          0,
+          8
+        ]
+      },
+      {
+        "id": "h4",
+        "name": "Single large value",
+        "input": [
+          [
+            100
+          ],
+          1
+        ],
+        "expected": [
+          200
+        ]
+      }
+    ],
+    "hints": [
+      "Add await before new Promise(...)."
+    ],
+    "tags": [
+      "Async",
+      "Async/Await Mistakes",
+      "Promises"
+    ]
+  },
+  {
+    "title": "Wrong Comparison in Object Deep Equality",
+    "slug": "wrong-comparison-deep-equality",
+    "difficulty": "Medium",
+    "difficultyLevel": 3,
+    "functionName": "isDeepEqual",
+    "bugDescription": "Performs shallow comparison !== on object keys, and crashes when evaluating null.",
+    "description": "Determine whether two objects or values are deeply equivalent.",
+    "buggyCode": "function isDeepEqual(a, b) {\n  if (a === b) return true;\n  // BUG: typeof null === 'object', causes crash on Object.keys\n  if (typeof a !== 'object' || typeof b !== 'object') return a === b;\n  const keysA = Object.keys(a);\n  const keysB = Object.keys(b);\n  if (keysA.length !== keysB.length) return false;\n  for (let k of keysA) {\n    // BUG: Shallow comparison instead of recursing\n    if (a[k] !== b[k]) return false;\n  }\n  return true;\n}",
+    "solution": "function isDeepEqual(a, b) {\n  if (a === b) return true;\n  if (a === null || b === null || typeof a !== 'object' || typeof b !== 'object') return a === b;\n  if (Array.isArray(a) !== Array.isArray(b)) return false;\n  const keysA = Object.keys(a);\n  const keysB = Object.keys(b);\n  if (keysA.length !== keysB.length) return false;\n  for (let k of keysA) {\n    if (!Object.prototype.hasOwnProperty.call(b, k)) return false;\n    if (!isDeepEqual(a[k], b[k])) return false;\n  }\n  return true;\n}",
+    "visibleTests": [
+      {
+        "id": "v1",
+        "name": "Equal flat objects",
+        "input": [
+          {
+            "x": 1,
+            "y": 2
+          },
+          {
+            "x": 1,
+            "y": 2
+          }
+        ],
+        "expected": true
+      },
+      {
+        "id": "v2",
+        "name": "Unequal property value",
+        "input": [
+          {
+            "x": 1
+          },
+          {
+            "x": 2
+          }
+        ],
+        "expected": false
+      }
+    ],
+    "hiddenTests": [
+      {
+        "id": "h1",
+        "name": "Nested object equality",
+        "input": [
+          {
+            "a": {
+              "b": 1
+            }
+          },
+          {
+            "a": {
+              "b": 1
+            }
+          }
+        ],
+        "expected": true
+      },
+      {
+        "id": "h2",
+        "name": "Null vs object comparison",
+        "input": [
+          null,
+          {
+            "a": 1
+          }
+        ],
+        "expected": false
+      },
+      {
+        "id": "h3",
+        "name": "Different key count",
+        "input": [
+          {
+            "a": 1
+          },
+          {
+            "a": 1,
+            "b": 2
+          }
+        ],
+        "expected": false
+      },
+      {
+        "id": "h4",
+        "name": "Nested arrays equality",
+        "input": [
+          [
+            1,
+            [
+              2,
+              3
+            ]
+          ],
+          [
+            1,
+            [
+              2,
+              3
+            ]
+          ]
+        ],
+        "expected": true
+      }
+    ],
+    "hints": [
+      "Check if a === null || b === null first, then recurse with isDeepEqual(a[k], b[k])."
+    ],
+    "tags": [
+      "Objects",
+      "Wrong Comparison",
+      "Recursion"
+    ]
+  },
+  {
+    "title": "Edge Case in Word Frequency Counter",
+    "slug": "edge-case-word-frequency",
+    "difficulty": "Medium",
+    "difficultyLevel": 3,
+    "functionName": "countWordFrequency",
+    "bugDescription": "Fails to sanitize casing or punctuation, and collides with Object prototype keys like constructor.",
+    "description": "Count the frequency of each alphanumeric word in a string, ignoring punctuation and casing.",
+    "buggyCode": "function countWordFrequency(text) {\n  if (!text) return {};\n  const words = text.split(' ');\n  const freq = {};\n  for (let w of words) {\n    // BUG: Fails on punctuation and casing, collides with Object prototype\n    freq[w] = (freq[w] || 0) + 1;\n  }\n  return freq;\n}",
+    "solution": "function countWordFrequency(text) {\n  if (!text || typeof text !== 'string') return {};\n  const clean = text.toLowerCase().replace(/[^a-z0-9\\s]/g, '');\n  const words = clean.split(/\\s+/).filter(Boolean);\n  const freq = Object.create(null);\n  for (let w of words) {\n    freq[w] = (freq[w] || 0) + 1;\n  }\n  return Object.assign({}, freq);\n}",
+    "visibleTests": [
+      {
+        "id": "v1",
+        "name": "Mixed case frequency",
+        "input": [
+          "Hello world hello"
+        ],
+        "expected": {
+          "hello": 2,
+          "world": 1
+        }
+      },
+      {
+        "id": "v2",
+        "name": "Identical casing repetition",
+        "input": [
+          "Code code Code"
+        ],
+        "expected": {
+          "code": 3
+        }
+      }
+    ],
+    "hiddenTests": [
+      {
+        "id": "h1",
+        "name": "Punctuation stripping",
+        "input": [
+          "Apple, banana! Apple?"
+        ],
+        "expected": {
+          "apple": 2,
+          "banana": 1
+        }
+      },
+      {
+        "id": "h2",
+        "name": "Empty string",
+        "input": [
+          ""
+        ],
+        "expected": {}
+      },
+      {
+        "id": "h3",
+        "name": "Prototype key collision",
+        "input": [
+          "constructor toString constructor"
+        ],
+        "expected": {
+          "constructor": 2,
+          "tostring": 1
+        }
+      },
+      {
+        "id": "h4",
+        "name": "Irregular spacing",
+        "input": [
+          "one  two   three  one"
+        ],
+        "expected": {
+          "one": 2,
+          "two": 1,
+          "three": 1
+        }
+      }
+    ],
+    "hints": [
+      "Normalize casing toLowerCase(), strip punctuation, and use Object.create(null)."
+    ],
+    "tags": [
+      "Strings",
+      "Edge Cases",
+      "Prototypes"
+    ]
+  },
+  {
+    "title": "Mutated State in LRU Cache Eviction",
+    "slug": "mutated-state-lru-cache",
+    "difficulty": "Hard",
+    "difficultyLevel": 4,
+    "functionName": "runLRUCache",
+    "bugDescription": "get(key) fails to refresh key recency, and put() deletes the newest element instead of oldest.",
+    "description": "Execute get/put operations on an LRU Cache with the given capacity, returning an array of get results.",
+    "buggyCode": "function runLRUCache(capacity, operations) {\n  const map = new Map();\n  const results = [];\n  for (const op of operations) {\n    const [action, key, val] = op;\n    if (action === 'put') {\n      if (map.has(key)) {\n        map.set(key, val);\n      } else {\n        if (map.size >= capacity) {\n          const keys = Array.from(map.keys());\n          map.delete(keys[keys.length - 1]); // BUG: Evicts newest item!\n        }\n        map.set(key, val);\n      }\n    } else if (action === 'get') {\n      if (!map.has(key)) {\n        results.push(-1);\n      } else {\n        // BUG: Does not refresh recency upon access\n        results.push(map.get(key));\n      }\n    }\n  }\n  return results;\n}",
+    "solution": "function runLRUCache(capacity, operations) {\n  const map = new Map();\n  const results = [];\n  for (const op of operations) {\n    const [action, key, val] = op;\n    if (action === 'put') {\n      if (map.has(key)) {\n        map.delete(key);\n      } else if (map.size >= capacity) {\n        const oldest = map.keys().next().value;\n        map.delete(oldest);\n      }\n      map.set(key, val);\n    } else if (action === 'get') {\n      if (!map.has(key)) {\n        results.push(-1);\n      } else {\n        const value = map.get(key);\n        map.delete(key);\n        map.set(key, value);\n        results.push(value);\n      }\n    }\n  }\n  return results;\n}",
+    "visibleTests": [
+      {
+        "id": "v1",
+        "name": "Basic put and get",
+        "input": [
+          2,
+          [
+            [
+              "put",
+              1,
+              10
+            ],
+            [
+              "put",
+              2,
+              20
+            ],
+            [
+              "get",
+              1
+            ]
+          ]
+        ],
+        "expected": [
+          10
+        ]
+      },
+      {
+        "id": "v2",
+        "name": "Evicts LRU key",
+        "input": [
+          2,
+          [
+            [
+              "put",
+              1,
+              10
+            ],
+            [
+              "put",
+              2,
+              20
+            ],
+            [
+              "get",
+              1
+            ],
+            [
+              "put",
+              3,
+              30
+            ],
+            [
+              "get",
+              2
+            ],
+            [
+              "get",
+              1
+            ],
+            [
+              "get",
+              3
+            ]
+          ]
+        ],
+        "expected": [
+          10,
+          -1,
+          10,
+          30
+        ]
+      }
+    ],
+    "hiddenTests": [
+      {
+        "id": "h1",
+        "name": "Updating existing key refreshes recency",
+        "input": [
+          2,
+          [
+            [
+              "put",
+              1,
+              1
+            ],
+            [
+              "put",
+              2,
+              2
+            ],
+            [
+              "put",
+              1,
+              100
+            ],
+            [
+              "put",
+              3,
+              3
+            ],
+            [
+              "get",
+              2
+            ],
+            [
+              "get",
+              1
+            ],
+            [
+              "get",
+              3
+            ]
+          ]
+        ],
+        "expected": [
+          -1,
+          100,
+          3
+        ]
+      },
+      {
+        "id": "h2",
+        "name": "Capacity of 1",
+        "input": [
+          1,
+          [
+            [
+              "put",
+              1,
+              1
+            ],
+            [
+              "put",
+              2,
+              2
+            ],
+            [
+              "get",
+              1
+            ],
+            [
+              "get",
+              2
+            ]
+          ]
+        ],
+        "expected": [
+          -1,
+          2
+        ]
+      },
+      {
+        "id": "h3",
+        "name": "Missing key returns -1",
+        "input": [
+          2,
+          [
+            [
+              "get",
+              99
+            ]
+          ]
+        ],
+        "expected": [
+          -1
+        ]
+      },
+      {
+        "id": "h4",
+        "name": "Frequent access maintains warmth",
+        "input": [
+          3,
+          [
+            [
+              "put",
+              1,
+              1
+            ],
+            [
+              "put",
+              2,
+              2
+            ],
+            [
+              "put",
+              3,
+              3
+            ],
+            [
+              "get",
+              1
+            ],
+            [
+              "put",
+              4,
+              4
+            ],
+            [
+              "get",
+              2
+            ]
+          ]
+        ],
+        "expected": [
+          1,
+          -1
+        ]
+      }
+    ],
+    "hints": [
+      "In a JavaScript Map, map.keys().next().value is the oldest entry. Delete and re-set on access."
+    ],
+    "tags": [
+      "Data Structures",
+      "Mutated State",
+      "LRU Cache"
+    ]
+  },
+  {
+    "title": "Async/Await Mistake in Promise.allSettled",
+    "slug": "async-mistake-promise-allsettled",
+    "difficulty": "Hard",
+    "difficultyLevel": 4,
+    "functionName": "allSettledValues",
+    "bugDescription": "Uses Promise.all directly, which rejects immediately on first error instead of capturing status.",
+    "description": "Capture the outcome of all async items, returning an array with status 'fulfilled' or 'rejected'.",
+    "buggyCode": "async function allSettledValues(items) {\n  // BUG: Promise.all aborts immediately on first error!\n  return Promise.all(\n    items.map(item => {\n      if (item.shouldReject) return Promise.reject(item.val);\n      return Promise.resolve(item.val);\n    })\n  );\n}",
+    "solution": "async function allSettledValues(items) {\n  return Promise.all(\n    items.map(item => {\n      const p = item.shouldReject ? Promise.reject(item.val) : Promise.resolve(item.val);\n      return p\n        .then(value => ({ status: 'fulfilled', value }))\n        .catch(reason => ({ status: 'rejected', reason: String(reason) }));\n    })\n  );\n}",
+    "visibleTests": [
+      {
+        "id": "v1",
+        "name": "All fulfilled items",
+        "input": [
+          [
+            {
+              "val": 10,
+              "shouldReject": false
+            },
+            {
+              "val": 20,
+              "shouldReject": false
+            }
+          ]
+        ],
+        "expected": [
+          {
+            "status": "fulfilled",
+            "value": 10
+          },
+          {
+            "status": "fulfilled",
+            "value": 20
+          }
+        ]
+      },
+      {
+        "id": "v2",
+        "name": "Mixed fulfilled and rejected",
+        "input": [
+          [
+            {
+              "val": 1,
+              "shouldReject": false
+            },
+            {
+              "val": "fail",
+              "shouldReject": true
+            }
+          ]
+        ],
+        "expected": [
+          {
+            "status": "fulfilled",
+            "value": 1
+          },
+          {
+            "status": "rejected",
+            "reason": "fail"
+          }
+        ]
+      }
+    ],
+    "hiddenTests": [
+      {
+        "id": "h1",
+        "name": "All rejected items",
+        "input": [
+          [
+            {
+              "val": "err1",
+              "shouldReject": true
+            },
+            {
+              "val": "err2",
+              "shouldReject": true
+            }
+          ]
+        ],
+        "expected": [
+          {
+            "status": "rejected",
+            "reason": "err1"
+          },
+          {
+            "status": "rejected",
+            "reason": "err2"
+          }
+        ]
+      },
+      {
+        "id": "h2",
+        "name": "Empty items array",
+        "input": [
+          []
+        ],
+        "expected": []
+      },
+      {
+        "id": "h3",
+        "name": "Single fulfilled item",
+        "input": [
+          [
+            {
+              "val": 42,
+              "shouldReject": false
+            }
+          ]
+        ],
+        "expected": [
+          {
+            "status": "fulfilled",
+            "value": 42
+          }
+        ]
+      },
+      {
+        "id": "h4",
+        "name": "Alternating rejection",
+        "input": [
+          [
+            {
+              "val": "a",
+              "shouldReject": true
+            },
+            {
+              "val": "b",
+              "shouldReject": false
+            },
+            {
+              "val": "c",
+              "shouldReject": true
+            }
+          ]
+        ],
+        "expected": [
+          {
+            "status": "rejected",
+            "reason": "a"
+          },
+          {
+            "status": "fulfilled",
+            "value": "b"
+          },
+          {
+            "status": "rejected",
+            "reason": "c"
+          }
+        ]
+      }
+    ],
+    "hints": [
+      "Attach .then(v => ({ status: 'fulfilled', value: v })).catch(r => ({ status: 'rejected', reason: String(r) }))."
+    ],
+    "tags": [
+      "Async",
+      "Async/Await Mistakes",
+      "Promises"
+    ]
+  },
+  {
+    "title": "Wrong Operator in Course Schedule Cycle Detection",
+    "slug": "wrong-operator-course-schedule",
+    "difficulty": "Hard",
+    "difficultyLevel": 5,
+    "functionName": "findOrder",
+    "bugDescription": "Reverses prerequisite graph edge direction, causing topological sort to output in reverse dependency order.",
+    "description": "Return a valid course schedule order using topological sort, or [] if impossible due to a cycle.",
+    "buggyCode": "function findOrder(numCourses, prerequisites) {\n  const inDegree = new Array(numCourses).fill(0);\n  const adj = Array.from({ length: numCourses }, () => []);\n  for (let [course, pre] of prerequisites) {\n    // BUG: Reversed edge direction (adds pre as dependent of course)\n    adj[course].push(pre);\n    inDegree[pre]++;\n  }\n  const queue = [];\n  for (let i = 0; i < numCourses; i++) {\n    if (inDegree[i] === 0) queue.push(i);\n  }\n  const order = [];\n  while (queue.length > 0) {\n    const curr = queue.shift();\n    order.push(curr);\n    for (let neighbor of adj[curr]) {\n      inDegree[neighbor]--;\n      if (inDegree[neighbor] === 0) {\n        queue.push(neighbor);\n      }\n    }\n  }\n  return order.length === numCourses ? order : [];\n}",
+    "solution": "function findOrder(numCourses, prerequisites) {\n  const inDegree = new Array(numCourses).fill(0);\n  const adj = Array.from({ length: numCourses }, () => []);\n  for (let [course, pre] of prerequisites) {\n    adj[pre].push(course);\n    inDegree[course]++;\n  }\n  const queue = [];\n  for (let i = 0; i < numCourses; i++) {\n    if (inDegree[i] === 0) queue.push(i);\n  }\n  const order = [];\n  while (queue.length > 0) {\n    const curr = queue.shift();\n    order.push(curr);\n    for (let neighbor of adj[curr]) {\n      inDegree[neighbor]--;\n      if (inDegree[neighbor] === 0) {\n        queue.push(neighbor);\n      }\n    }\n  }\n  return order.length === numCourses ? order : [];\n}",
+    "visibleTests": [
+      {
+        "id": "v1",
+        "name": "Two course dependency",
+        "input": [
+          2,
+          [
+            [
+              1,
+              0
+            ]
+          ]
+        ],
+        "expected": [
+          0,
+          1
+        ]
+      },
+      {
+        "id": "v2",
+        "name": "Four courses dependency graph",
+        "input": [
+          4,
+          [
+            [
+              1,
+              0
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              3,
+              1
+            ],
+            [
+              3,
+              2
+            ]
+          ]
+        ],
+        "expected": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    ],
+    "hiddenTests": [
+      {
+        "id": "h1",
+        "name": "Circular cycle returns empty array",
+        "input": [
+          2,
+          [
+            [
+              1,
+              0
+            ],
+            [
+              0,
+              1
+            ]
+          ]
+        ],
+        "expected": []
+      },
+      {
+        "id": "h2",
+        "name": "Single course with no prereqs",
+        "input": [
+          1,
+          []
+        ],
+        "expected": [
+          0
+        ]
+      },
+      {
+        "id": "h3",
+        "name": "Independent courses",
+        "input": [
+          3,
+          []
+        ],
+        "expected": [
+          0,
+          1,
+          2
+        ]
+      },
+      {
+        "id": "h4",
+        "name": "Three-way circular dead-lock",
+        "input": [
+          3,
+          [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              2,
+              0
+            ]
+          ]
+        ],
+        "expected": []
+      }
+    ],
+    "hints": [
+      "Only push a neighbor to the queue when its inDegree reaches exactly 0."
+    ],
+    "tags": [
+      "Graphs",
+      "Topological Sort",
+      "Wrong Operator"
+    ]
+  },
+  {
+    "title": "Async/Await Mistake in Task Batching",
+    "slug": "async-mistake-task-batching",
+    "difficulty": "Hard",
+    "difficultyLevel": 4,
+    "functionName": "batchProcess",
+    "bugDescription": "Omits await on chunk execution, pushing unresolved Promise objects into the batch array.",
+    "description": "Process array items in sequential batches of batchSize, awaiting each batch before continuing.",
+    "buggyCode": "async function batchProcess(items, batchSize = 2) {\n  const batches = [];\n  for (let i = 0; i < items.length; i += batchSize) {\n    const chunk = items.slice(i, i + batchSize);\n    // BUG: Omits await on Promise.all, pushing Promise objects!\n    batches.push(Promise.all(chunk.map(x => Promise.resolve(x * 10))));\n  }\n  return batches;\n}",
+    "solution": "async function batchProcess(items, batchSize = 2) {\n  const batches = [];\n  for (let i = 0; i < items.length; i += batchSize) {\n    const chunk = items.slice(i, i + batchSize);\n    const res = await Promise.all(chunk.map(x => Promise.resolve(x * 10)));\n    batches.push(res);\n  }\n  return batches;\n}",
+    "visibleTests": [
+      {
+        "id": "v1",
+        "name": "Even batching",
+        "input": [
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          2
+        ],
+        "expected": [
+          [
+            10,
+            20
+          ],
+          [
+            30,
+            40
+          ]
+        ]
+      },
+      {
+        "id": "v2",
+        "name": "Single item batch",
+        "input": [
+          [
+            5
+          ],
+          1
+        ],
+        "expected": [
+          [
+            50
+          ]
+        ]
+      }
+    ],
+    "hiddenTests": [
+      {
+        "id": "h1",
+        "name": "Uneven batch division",
+        "input": [
+          [
+            1,
+            2,
+            3
+          ],
+          2
+        ],
+        "expected": [
+          [
+            10,
+            20
+          ],
+          [
+            30
+          ]
+        ]
+      },
+      {
+        "id": "h2",
+        "name": "Empty items array",
+        "input": [
+          [],
+          3
+        ],
+        "expected": []
+      },
+      {
+        "id": "h3",
+        "name": "Negative items with batching",
+        "input": [
+          [
+            -1,
+            2,
+            -3
+          ],
+          1
+        ],
+        "expected": [
+          [
+            -10
+          ],
+          [
+            20
+          ],
+          [
+            -30
+          ]
+        ]
+      },
+      {
+        "id": "h4",
+        "name": "Batch size larger than items length",
+        "input": [
+          [
+            1,
+            2,
+            3
+          ],
+          5
+        ],
+        "expected": [
+          [
+            10,
+            20,
+            30
+          ]
+        ]
+      }
+    ],
+    "hints": [
+      "Iterate in steps of batchSize and await Promise.all on each chunk."
+    ],
+    "tags": [
+      "Async",
+      "Concurrency",
+      "Batching"
+    ]
+  }
+]

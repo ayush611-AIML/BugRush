@@ -1,0 +1,78 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:6.0
+    container_name: bugrush-mongo
+    restart: unless-stopped
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - bugrush-net
+
+  redis:
+    image: redis:7.0-alpine
+    container_name: bugrush-redis
+    restart: unless-stopped
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis-data:/data
+    networks:
+      - bugrush-net
+
+  # Judge0 CE (Community Edition) sandbox
+  # Limits: CPU time limit 2-3s, memory limit 128MB, network disabled
+  judge0-server:
+    image: judge0/judge0:1.13.0
+    container_name: bugrush-judge0-server
+    restart: unless-stopped
+    ports:
+      - '2358:2358'
+    environment:
+      - REDIS_HOST=judge0-redis
+      - REDIS_PORT=6379
+      - POSTGRES_HOST=judge0-db
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=judge0
+      - POSTGRES_USER=judge0
+      - POSTGRES_PASSWORD=YourPasswordHere1234
+    depends_on:
+      - judge0-db
+      - judge0-redis
+    networks:
+      - bugrush-net
+
+  judge0-db:
+    image: postgres:13.0
+    container_name: bugrush-judge0-db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=judge0
+      - POSTGRES_USER=judge0
+      - POSTGRES_PASSWORD=YourPasswordHere1234
+    volumes:
+      - judge0-postgres-data:/var/lib/postgresql/data
+    networks:
+      - bugrush-net
+
+  judge0-redis:
+    image: redis:7.0-alpine
+    container_name: bugrush-judge0-redis
+    restart: unless-stopped
+    volumes:
+      - judge0-redis-data:/data
+    networks:
+      - bugrush-net
+
+volumes:
+  mongo-data:
+  redis-data:
+  judge0-postgres-data:
+  judge0-redis-data:
+
+networks:
+  bugrush-net:
+    driver: bridge

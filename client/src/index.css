@@ -1,0 +1,127 @@
+@import "tailwindcss";
+
+@theme {
+  --color-warm-cream: #FBF4EC;
+  --color-cloud: #FFFFFF;
+  --color-dark-chocolate: #3B1E10;
+  --color-warm-amber: #C06520;
+  --color-sand: #E8DDD2;
+
+  --color-amber-50: #fdf5ef;
+  --color-amber-100: #fae6d4;
+  --color-amber-200: #f5cda8;
+  --color-amber-300: #e8a870;
+  --color-amber-400: #d4882e;
+  --color-amber-500: #C06520;
+  --color-amber-600: #a8541a;
+  --color-amber-700: #8b4416;
+  --color-amber-800: #723814;
+  --color-amber-900: #5e2e12;
+
+  --color-chocolate-50: #faf6f3;
+  --color-chocolate-100: #f0e5d8;
+  --color-chocolate-200: #e0cab0;
+  --color-chocolate-300: #c9a580;
+  --color-chocolate-400: #a07850;
+  --color-chocolate-500: #7a5535;
+  --color-chocolate-600: #5e3f25;
+  --color-chocolate-700: #4a2e1a;
+  --color-chocolate-800: #3b2414;
+  --color-chocolate-900: #3B1E10;
+
+  --color-sand-50: #fdf9f5;
+  --color-sand-100: #f7f0e8;
+  --color-sand-200: #efe3d5;
+  --color-sand-300: #E8DDD2;
+  --color-sand-400: #d5c4b0;
+  --color-sand-500: #b8a48d;
+  --color-sand-600: #96836c;
+  --color-sand-700: #7a6b58;
+}
+
+@layer base {
+  :root {
+    --bg-cream: #FBF4EC;
+    --bg-cloud: #FFFFFF;
+    --color-chocolate: #3B1E10;
+    --color-amber: #C06520;
+    --color-sand: #E8DDD2;
+    --text-primary: #3B1E10;
+    --text-secondary: #8A7560;
+    --border-color: rgba(232, 221, 210, 0.55);
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: #FBF4EC;
+    color: #3B1E10;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Inter', 'Helvetica Neue', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  #root {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    width: 100%;
+    margin: 0;
+    border: none;
+    text-align: left;
+    background-color: #FBF4EC;
+  }
+}
+
+/* Custom editorial Warm Brown & Amber scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #FBF4EC;
+}
+::-webkit-scrollbar-thumb {
+  background: #E8DDD2;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #C06520;
+}
+
+/* Radar pulse animation in warm Amber & Chocolate */
+@keyframes radar-pulse-amber {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.4);
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(1.85);
+    opacity: 0;
+  }
+}
+
+.radar-ring {
+  animation: radar-pulse-amber 2.2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+}
+
+.radar-ring-delay-1 {
+  animation: radar-pulse-amber 2.2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+  animation-delay: 0.75s;
+}
+
+.radar-ring-delay-2 {
+  animation: radar-pulse-amber 2.2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+  animation-delay: 1.5s;
+}
